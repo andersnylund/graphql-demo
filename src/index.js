@@ -1,17 +1,16 @@
 import cors from 'cors';
-import http from 'http';
 import express from 'express';
 import {
   ApolloServer,
 } from 'apollo-server-express';
 import 'dotenv/config';
+import chalk from 'chalk';
 
 import schema from './schema';
 import resolvers from './resolvers';
 import models, {
   sequelize
 } from './models';
-import chalk from 'chalk';
 
 const app = express();
 

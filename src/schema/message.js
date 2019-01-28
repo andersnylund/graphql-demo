@@ -4,16 +4,15 @@ import {
 
 export default gql `
   extend type Query {
-    threads: [Thread!]!
+    messages(threadId: ID!): [Message!]!
   }
 
   extend type Mutation {
-    addThread(text: String!): Thread!
+    addMessage(threadId: ID!, text: String!): Message!
   }
 
-  type Thread {
+  type Message {
     id: ID!
     text: String!
-    messages: [Message!]!
   }
 `;

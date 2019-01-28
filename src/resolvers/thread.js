@@ -1,13 +1,25 @@
-import Sequelize from 'sequelize';
-
 export default {
   Query: {
     threads: async (parent, args, {
       models: {
-        Thread
+        Thread,
+        Message
       }
     }) => {
-      return Thread.findAll();
+      const threads = await Thread.findAll();
+      const result = await Promise.all(threads.map(async (thread) => {
+        const messages = await Message.findAll({
+          where: {
+            threadId: thread.id
+          }
+        });
+        return {
+          id: thread.id,
+          text: thread.text,
+          messages
+        }
+      }));
+      return result;
     },
   },
   Mutation: {
