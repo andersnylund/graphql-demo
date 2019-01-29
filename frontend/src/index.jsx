@@ -1,35 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createGlobalStyle } from 'styled-components';
+import { ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { ApolloLink } from 'apollo-link';
+import { HttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import App from './App';
+import GlobalStyle from './globalStyle';
 
-const GlobalStyle = createGlobalStyle`
-  html {
-    box-sizing: border-box;
+const httpLink = new HttpLink({
+  uri: '/graphql',
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.error(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
   }
 
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
+  if (networkError) {
+    console.error(`[Network error]: ${networkError}`);
   }
+});
 
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-`;
+const link = ApolloLink.from([errorLink, httpLink]);
+
+const cache = new InMemoryCache();
+
+const client = new ApolloClient({
+  link,
+  cache,
+});
 
 ReactDOM.render(
-  <>
+  <ApolloProvider client={client}>
     <GlobalStyle />
     <App />
-  </>,
+  </ApolloProvider>,
   document.getElementById('root')
 );
