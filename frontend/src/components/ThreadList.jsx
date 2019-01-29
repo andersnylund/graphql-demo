@@ -7,10 +7,6 @@ export const GET_THREADS = gql`
     threads {
       id
       text
-      messages {
-        id
-        text
-      }
     }
   }
 `;

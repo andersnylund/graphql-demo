@@ -39,7 +39,8 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.11.0",
     "prettier": "^1.16.1",
-    "react-testing-library": "^5.4.4"
+    "react-testing-library": "^5.4.4",
+    "waait": "^1.0.3"
   },
   "proxy": "http://localhost:3001"
 }
