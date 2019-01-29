@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 
 import { GET_THREADS } from './ThreadList';
 
-const ADD_THREAD = gql`
+export const ADD_THREAD = gql`
   mutation($text: String!) {
     addThread(text: $text) {
       id
@@ -43,6 +43,7 @@ class AddThread extends React.Component {
               onSubmit={event => this.handleSubmit(event, addThreadMutation)}
             >
               <textarea
+                placeholder="What are you up to?"
                 name="text"
                 type="text"
                 value={text}
