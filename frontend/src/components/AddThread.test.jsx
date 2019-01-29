@@ -10,7 +10,6 @@ const mocks = [
   {
     request: {
       query: ADD_THREAD,
-      variables: jest.fn(),
     },
     result: {
       data: {

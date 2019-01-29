@@ -1,6 +1,26 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import styled from 'styled-components';
+
+const Ul = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  li:last-child {
+    border: none;
+  }
+`;
+
+const Li = styled.li`
+  border-bottom: 2px solid goldenrod;
+  padding: 1rem;
+  :hover {
+    background: lightgoldenrodyellow;
+  }
+  transition: 0.3s;
+  cursor: pointer;
+`;
 
 export const GET_THREADS = gql`
   {
@@ -19,11 +39,11 @@ const ThreadList = () => {
           return <div>Loading...</div>;
         }
         return (
-          <ul>
+          <Ul>
             {data.threads.map(thread => (
-              <li key={thread.id}>{thread.text}</li>
+              <Li key={thread.id}>{thread.text}</Li>
             ))}
-          </ul>
+          </Ul>
         );
       }}
     </Query>
