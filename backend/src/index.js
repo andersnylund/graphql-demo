@@ -43,7 +43,7 @@ server.applyMiddleware({
   path: '/graphql',
 });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3001;
 
 sequelize.sync({
   force: true,
