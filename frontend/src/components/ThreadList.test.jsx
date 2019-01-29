@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, cleanup } from 'react-testing-library';
+import { render, cleanup, waitForElement } from 'react-testing-library';
 import { MockedProvider } from 'react-apollo/test-utils';
-import wait from 'waait';
+import 'jest-dom/extend-expect';
 
 import ThreadList, { GET_THREADS } from './ThreadList';
 
@@ -36,8 +36,8 @@ describe('<ThreadList />', () => {
         <ThreadList />
       </MockedProvider>
     );
-    await wait(0);
-    getByText('Hello1');
-    getByText('Hello2');
+
+    await waitForElement(() => getByText('Hello1'));
+    await waitForElement(() => getByText('Hello2'));
   });
 });
