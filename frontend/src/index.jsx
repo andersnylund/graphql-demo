@@ -17,6 +17,7 @@ const httpLink = new HttpLink({
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) =>
+      // eslint-disable-next-line no-console
       console.error(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
@@ -24,6 +25,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 
   if (networkError) {
+    // eslint-disable-next-line no-console
     console.error(`[Network error]: ${networkError}`);
   }
 });
