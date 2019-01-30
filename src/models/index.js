@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
 
 const models = {
   Thread: sequelize.import('./thread'),
+  Message: sequelize.import('./message'),
 };
 
 Object.keys(models).forEach(key => {
