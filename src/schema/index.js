@@ -5,7 +5,6 @@ import {
 import threadSchema from './thread';
 
 const linkSchema = gql `
-  scalar Date
   type Query {
     _: Boolean
   }

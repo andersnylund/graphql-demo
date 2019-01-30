@@ -1,5 +1,3 @@
-import Sequelize from 'sequelize';
-
 export default {
   Query: {
     threads: async (parent, args, {
