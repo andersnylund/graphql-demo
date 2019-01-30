@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import styled from 'styled-components';
 
-const Ul = styled.ul`
+export const Ul = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -12,7 +12,7 @@ const Ul = styled.ul`
   }
 `;
 
-const Li = styled.li`
+export const Li = styled.li`
   border-bottom: 2px solid goldenrod;
   padding: 1rem;
   :hover {

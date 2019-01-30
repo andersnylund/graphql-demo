@@ -1,23 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import ThreadList from './components/ThreadList';
-import AddThread from './components/AddThread';
-
-const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  max-width: 600px;
-`;
+import ThreadPage from './pages/ThreadPage';
+import MessagePage from './pages/MessagePage';
 
 const App = () => (
-  <Div>
-    <AddThread />
-    <ThreadList />
-  </Div>
+  <Router>
+    <>
+      <Route exact path="/" component={ThreadPage} />
+      <Route path="/:id" component={MessagePage} />
+    </>
+  </Router>
 );
 
 export default App;
