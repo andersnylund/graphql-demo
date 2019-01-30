@@ -55,6 +55,9 @@ class AddThread extends React.Component {
   handleSubmit = async (event, addThreadMutation) => {
     event.preventDefault();
     await addThreadMutation();
+    this.setState({
+      text: '',
+    });
   };
 
   render() {
