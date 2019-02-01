@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, string } from 'prop-types';
+import { shape, string, array } from 'prop-types';
 import ThreadTitle from '../components/ThreadTitle';
 import AddMessage from '../components/AddMessage';
 import MessageList from '../components/MessageList';
@@ -19,7 +19,7 @@ const MessagePage = ({
     <Container>
       <ThreadTitle title={thread.text} />
       <MessageList messages={thread.messages} />
-      <AddMessage />
+      <AddMessage threadId={thread.id} />
     </Container>
   );
 };
@@ -30,6 +30,7 @@ MessagePage.propTypes = {
       id: string.isRequired,
     }).isRequired,
   }).isRequired,
+  threads: array.isRequired,
 };
 
 export default MessagePage;
