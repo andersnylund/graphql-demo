@@ -1,26 +1,26 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-import { ApolloConsumer } from 'react-apollo';
-
-import { Li, Ul } from '../components/ThreadList';
-import { GET_THREADS } from './ThreadPage';
+import ThreadTitle from '../components/ThreadTitle';
+import AddMessage from '../components/AddMessage';
+import MessageList from '../components/MessageList';
+import Container from './Container';
 
 const MessagePage = ({
   match: {
     params: { id },
   },
+  threads,
 }) => {
+  const thread = threads.find(t => t.id === id);
+  if (!thread) {
+    return <div>Thread not found!</div>;
+  }
   return (
-    <ApolloConsumer>
-      {client => {
-        console.log('client:', client);
-        const result = client.cache.readQuery({
-          query: GET_THREADS,
-        });
-        console.log('result:', result);
-        return null;
-      }}
-    </ApolloConsumer>
+    <Container>
+      <ThreadTitle title={thread.text} />
+      <MessageList messages={thread.messages} />
+      <AddMessage />
+    </Container>
   );
 };
 
