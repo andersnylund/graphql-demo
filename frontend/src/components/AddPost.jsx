@@ -1,21 +1,20 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { string } from 'prop-types';
 
-import { GET_THREADS } from '../App';
+import { GET_POSTS } from '../App';
 import TextAreaForm from './TextAreaForm';
 
-export const ADD_MESSAGE = gql`
-  mutation($threadId: ID!, $text: String!) {
-    addMessage(threadId: $threadId, text: $text) {
+export const ADD_POST = gql`
+  mutation($text: String!) {
+    addPost(text: $text) {
       id
       text
     }
   }
 `;
 
-class AddMessage extends React.Component {
+class AddPost extends React.Component {
   state = {
     text: '',
   };
@@ -28,11 +27,9 @@ class AddMessage extends React.Component {
 
   handleSubmit = (event, mutation) => {
     const { text } = this.state;
-    const { threadId } = this.props;
     event.preventDefault();
     mutation({
       variables: {
-        threadId,
         text,
       },
     });
@@ -44,18 +41,15 @@ class AddMessage extends React.Component {
   render() {
     const { text } = this.state;
     return (
-      <Mutation
-        mutation={ADD_MESSAGE}
-        refetchQueries={[{ query: GET_THREADS }]}
-      >
-        {addMessageMutation => {
+      <Mutation mutation={ADD_POST} refetchQueries={[{ query: GET_POSTS }]}>
+        {addPostMutation => {
           return (
             <TextAreaForm
               onChange={this.handleChange}
               value={text}
-              onSubmit={event => this.handleSubmit(event, addMessageMutation)}
-              placeholder="Your comment"
-              buttonText="Comment"
+              onSubmit={event => this.handleSubmit(event, addPostMutation)}
+              placeholder="What?"
+              buttonText="Post"
             />
           );
         }}
@@ -64,8 +58,4 @@ class AddMessage extends React.Component {
   }
 }
 
-AddMessage.propTypes = {
-  threadId: string.isRequired,
-};
-
-export default AddMessage;
+export default AddPost;

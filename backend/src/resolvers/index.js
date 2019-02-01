@@ -1,7 +1,7 @@
-import threadResolvers from './thread';
-import messageResolvers from './message';
+import postResolvers from './post';
+import commentResolvers from './comment';
 
 export default [
-  threadResolvers,
-  messageResolvers
+  postResolvers,
+  commentResolvers
 ];

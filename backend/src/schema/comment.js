@@ -4,10 +4,10 @@ import {
 
 export default gql `
   extend type Mutation {
-    addMessage(threadId: ID!, text: String!): Message!
+    addComment(postId: ID!, text: String!): Comment!
   }
 
-  type Message {
+  type Comment {
     id: ID!
     text: String!
   }

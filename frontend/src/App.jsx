@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import ThreadPage from './pages/ThreadPage';
-import MessagePage from './pages/MessagePage';
+import PostPage from './pages/PostPage';
+import CommentPage from './pages/CommentPage';
 
-export const GET_THREADS = gql`
+export const GET_POSTS = gql`
   {
-    threads {
+    posts {
       id
       text
-      messages {
+      comments {
         id
         text
       }
@@ -21,7 +21,7 @@ export const GET_THREADS = gql`
 
 const App = () => (
   <Router>
-    <Query query={GET_THREADS}>
+    <Query query={GET_POSTS}>
       {({ data, loading }) => {
         if (loading) {
           return <div>Loading...</div>;
@@ -31,13 +31,11 @@ const App = () => (
             <Route
               exact
               path="/"
-              render={props => <ThreadPage threads={data.threads} {...props} />}
+              render={props => <PostPage posts={data.posts} {...props} />}
             />
             <Route
               path="/:id"
-              render={props => (
-                <MessagePage threads={data.threads} {...props} />
-              )}
+              render={props => <CommentPage posts={data.posts} {...props} />}
             />
           </>
         );

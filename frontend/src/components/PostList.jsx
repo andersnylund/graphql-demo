@@ -22,23 +22,23 @@ export const Li = styled.li`
   cursor: pointer;
 `;
 
-const handleThreadClick = (history, id) => {
+const handlePostClick = (history, id) => {
   history.push(`/${id}`);
 };
 
-const ThreadList = ({ history, threads }) => (
+const PostList = ({ history, posts }) => (
   <Ul>
-    {threads.map(thread => (
-      <Li key={thread.id} onClick={() => handleThreadClick(history, thread.id)}>
-        {`#${thread.id} ${thread.text} has ${thread.messages.length} messages`}
+    {posts.map(post => (
+      <Li key={post.id} onClick={() => handlePostClick(history, post.id)}>
+        {`#${post.id} ${post.text} has ${post.comments.length} comments`}
       </Li>
     ))}
   </Ul>
 );
 
-ThreadList.propTypes = {
+PostList.propTypes = {
   history: object.isRequired,
-  threads: array.isRequired,
+  posts: array.isRequired,
 };
 
-export default withRouter(ThreadList);
+export default withRouter(PostList);
