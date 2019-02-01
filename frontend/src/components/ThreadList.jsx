@@ -1,7 +1,7 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { object, array } from 'prop-types';
 
 export const Ul = styled.ul`
   list-style-type: none;
@@ -22,32 +22,23 @@ export const Li = styled.li`
   cursor: pointer;
 `;
 
-export const GET_THREADS = gql`
-  {
-    threads {
-      id
-      text
-    }
-  }
-`;
-
-const ThreadList = () => {
-  return (
-    <Query query={GET_THREADS}>
-      {({ data, loading }) => {
-        if (loading) {
-          return <div>Loading...</div>;
-        }
-        return (
-          <Ul>
-            {data.threads.map(thread => (
-              <Li key={thread.id}>{thread.text}</Li>
-            ))}
-          </Ul>
-        );
-      }}
-    </Query>
-  );
+const handleThreadClick = (history, id) => {
+  history.push(`/${id}`);
 };
 
-export default ThreadList;
+const ThreadList = ({ history, threads }) => (
+  <Ul>
+    {threads.map(thread => (
+      <Li key={thread.id} onClick={() => handleThreadClick(history, thread.id)}>
+        {`#${thread.id} ${thread.text} has ${thread.messages.length} messages`}
+      </Li>
+    ))}
+  </Ul>
+);
+
+ThreadList.propTypes = {
+  history: object.isRequired,
+  threads: array.isRequired,
+};
+
+export default withRouter(ThreadList);

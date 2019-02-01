@@ -6,6 +6,7 @@ import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { persistCache } from 'apollo-cache-persist';
 
 import App from './App';
 import GlobalStyle from './globalStyle';
@@ -33,6 +34,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const link = ApolloLink.from([errorLink, httpLink]);
 
 const cache = new InMemoryCache();
+
+persistCache({
+  cache,
+  storage: window.localStorage,
+});
 
 const client = new ApolloClient({
   link,

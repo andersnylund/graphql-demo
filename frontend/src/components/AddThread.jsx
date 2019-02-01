@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
 
-import { GET_THREADS } from './ThreadList';
+import { GET_THREADS } from '../pages/ThreadPage';
 
 export const ADD_THREAD = gql`
   mutation($text: String!) {
@@ -54,6 +54,9 @@ class AddThread extends React.Component {
 
   handleSubmit = async (event, addThreadMutation) => {
     event.preventDefault();
+    this.setState({
+      text: '',
+    });
     await addThreadMutation();
   };
 

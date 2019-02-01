@@ -1,18 +1,9 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { ApolloConsumer } from 'react-apollo';
 
 import { Li, Ul } from '../components/ThreadList';
-
-const MESSAGES = gql`
-  query($threadId: ID!) {
-    messages(threadId: $threadId) {
-      id
-      text
-    }
-  }
-`;
+import { GET_THREADS } from './ThreadPage';
 
 const MessagePage = ({
   match: {
@@ -20,20 +11,16 @@ const MessagePage = ({
   },
 }) => {
   return (
-    <Query query={MESSAGES} variables={{ threadId: id }}>
-      {({ data, loading }) => {
-        if (loading) {
-          return <div>Loading...</div>;
-        }
-        return (
-          <Ul>
-            {data.messages.map(message => (
-              <Li key={message.id}>{message.id}</Li>
-            ))}
-          </Ul>
-        );
+    <ApolloConsumer>
+      {client => {
+        console.log('client:', client);
+        const result = client.cache.readQuery({
+          query: GET_THREADS,
+        });
+        console.log('result:', result);
+        return null;
       }}
-    </Query>
+    </ApolloConsumer>
   );
 };
 
