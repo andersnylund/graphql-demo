@@ -1,5 +1,7 @@
-import cors from 'cors';
 import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import http from 'http';
 import {
   ApolloServer,
 } from 'apollo-server-express';
@@ -14,6 +16,7 @@ import models, {
 const app = express();
 
 app.use(cors());
+app.use(helmet());
 
 const server = new ApolloServer({
   introspection: true, // Enables and disables schema introspection. Disabled in production by default.
@@ -30,12 +33,15 @@ server.applyMiddleware({
   path: '/graphql',
 });
 
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
+
 const port = process.env.PORT || 3001;
 
 sequelize.sync({
   force: true, // adds a DROP TABLE IF EXISTS before trying to create the table
 }).then(async () => {
-  app.listen({
+  httpServer.listen({
       port,
     },
     () => {

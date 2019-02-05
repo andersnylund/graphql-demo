@@ -7,8 +7,17 @@ export default gql `
     addComment(postId: ID!, text: String!): Comment!
   }
 
+  extend type Subscription {
+    commentAdded(postId: ID!): CommentAdded!
+  }
+
   type Comment {
     id: ID!
     text: String!
   }
+
+  type CommentAdded {
+    comment: Comment!
+  }
+
 `;
