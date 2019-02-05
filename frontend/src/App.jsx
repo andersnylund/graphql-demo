@@ -22,7 +22,7 @@ export const GET_POSTS = gql`
 const App = () => (
   <Router>
     <Query query={GET_POSTS}>
-      {({ data, loading }) => {
+      {({ data, loading, subscribeToMore }) => {
         if (loading) {
           return <div>Loading...</div>;
         }
@@ -35,7 +35,13 @@ const App = () => (
             />
             <Route
               path="/:id"
-              render={props => <CommentPage posts={data.posts} {...props} />}
+              render={props => (
+                <CommentPage
+                  posts={data.posts}
+                  subscribeToMore={subscribeToMore}
+                  {...props}
+                />
+              )}
             />
           </>
         );

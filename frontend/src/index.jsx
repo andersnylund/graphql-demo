@@ -2,18 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, split } from 'apollo-link';
+import { getMainDefinition } from 'apollo-utilities';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
+import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { persistCache } from 'apollo-cache-persist';
 
 import App from './App';
 import GlobalStyle from './globalStyle';
 
 const httpLink = new HttpLink({
-  uri: '/graphql',
+  uri: 'http://localhost:3001/graphql',
 });
+
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:3001/graphql`,
+  options: {
+    reconnect: true,
+  },
+});
+
+const terminatingLink = split(
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
+  },
+  wsLink,
+  httpLink
+);
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -31,14 +48,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
-const link = ApolloLink.from([errorLink, httpLink]);
+const link = ApolloLink.from([errorLink, terminatingLink]);
 
 const cache = new InMemoryCache();
-
-persistCache({
-  cache,
-  storage: window.localStorage,
-});
 
 const client = new ApolloClient({
   link,

@@ -18,6 +18,7 @@ export default gql `
 
   type CommentAdded {
     comment: Comment!
+    postId: ID!
   }
 
 `;
