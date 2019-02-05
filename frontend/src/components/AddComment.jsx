@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import { string } from 'prop-types';
 
 import { GET_POSTS } from '../App';
-import TextAreaForm from './TextAreaForm';
+import TextAreaForm, { Button } from './TextAreaForm';
 
 export const ADD_COMMENT = gql`
   mutation($postId: ID!, $text: String!) {
@@ -18,6 +18,7 @@ export const ADD_COMMENT = gql`
 class AddComment extends React.Component {
   state = {
     text: '',
+    open: false,
   };
 
   handleChange = event => {
@@ -42,6 +43,16 @@ class AddComment extends React.Component {
   };
 
   render() {
+    const { open } = this.state;
+
+    if (!open) {
+      return (
+        <Button onClick={() => this.setState({ open: true })}>
+          Add comment
+        </Button>
+      );
+    }
+
     const { text } = this.state;
     return (
       <Mutation mutation={ADD_COMMENT} refetchQueries={[{ query: GET_POSTS }]}>

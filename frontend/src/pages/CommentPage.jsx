@@ -12,16 +12,20 @@ import { Button } from '../components/TextAreaForm';
 const PostTitle = styled.h1`
   color: goldenrod;
   text-shadow: 1px 1px 1px gray;
+  margin: 0;
 `;
 
-const TitleContainer = styled.div`
+const Header = styled.div`
   width: 100%;
   display: grid;
   grid-auto-flow: row;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 50px 1fr 50px;
   justify-content: space-between;
   text-align: center;
+  padding: 1rem;
 `;
+
+const BackButton = styled.div``;
 
 const COMMENT_ADDED = gql`
   subscription($postId: ID!) {
@@ -77,10 +81,12 @@ class CommentPage extends React.Component {
     }
     return (
       <Container>
-        <TitleContainer>
-          <Button onClick={() => history.push('/')}>←</Button>
+        <Header>
+          <BackButton>
+            <Button onClick={() => history.push('/')}>←</Button>
+          </BackButton>
           <PostTitle>{post.text}</PostTitle>
-        </TitleContainer>
+        </Header>
         <CommentList comments={post.comments} />
         <AddComment postId={post.id} />
       </Container>
