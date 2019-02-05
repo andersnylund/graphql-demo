@@ -22,6 +22,25 @@ export const Li = styled.li`
   cursor: pointer;
 `;
 
+const Post = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 1rem;
+`;
+
+const Id = styled.div`
+  color: grey;
+`;
+
+const Text = styled.div`
+  font-weight: 800;
+`;
+
+const Comments = styled.div`
+  color: grey;
+  justify-self: flex-end;
+`;
+
 const handlePostClick = (history, id) => {
   history.push(`/${id}`);
 };
@@ -30,7 +49,11 @@ const PostList = ({ history, posts }) => (
   <Ul>
     {posts.map(post => (
       <Li key={post.id} onClick={() => handlePostClick(history, post.id)}>
-        {`#${post.id} ${post.text} has ${post.comments.length} comments`}
+        <Post>
+          <Id>{`#${post.id}`}</Id>
+          <Text>{`${post.text}`}</Text>
+          <Comments>{`${post.comments.length} comments`}</Comments>
+        </Post>
       </Li>
     ))}
   </Ul>

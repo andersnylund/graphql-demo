@@ -26,6 +26,7 @@ const server = new ApolloServer({
   context: {
     models,
   },
+  debug: true,
 });
 
 server.applyMiddleware({
