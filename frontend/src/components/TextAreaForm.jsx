@@ -5,6 +5,7 @@ import { func, string } from 'prop-types';
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   padding: 2rem;
   width: 100%;
@@ -15,18 +16,19 @@ const TextArea = styled.textarea`
   border-radius: 5px;
   font-family: inherit;
   width: 100%;
+  padding: 1rem;
+  margin: 0 0 1rem 0;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   background: white;
   color: goldenrod;
   font-size: 1rem;
   font-weight: 800;
-  margin: 1rem;
+  margin: auto;
   padding: 0.5rem 1rem;
   border: 2px solid goldenrod;
   border-radius: 5px;
-  max-width: 200px;
 `;
 
 const TextAreaForm = ({

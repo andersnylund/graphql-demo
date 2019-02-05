@@ -1,11 +1,27 @@
 import React from 'react';
-import { shape, string, array, func } from 'prop-types';
+import { shape, string, array, func, object } from 'prop-types';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
-import PostTitle from '../components/PostTitle';
 import AddComment from '../components/AddComment';
 import CommentList from '../components/CommentList';
 import Container from './Container';
+import { Button } from '../components/TextAreaForm';
+
+const PostTitle = styled.h1`
+  color: goldenrod;
+  text-shadow: 1px 1px 1px gray;
+`;
+
+const TitleContainer = styled.div`
+  width: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: space-between;
+  text-align: center;
+`;
 
 const COMMENT_ADDED = gql`
   subscription($postId: ID!) {
@@ -17,6 +33,7 @@ const COMMENT_ADDED = gql`
     }
   }
 `;
+
 class CommentPage extends React.Component {
   componentDidMount() {
     const {
@@ -52,6 +69,7 @@ class CommentPage extends React.Component {
         params: { id },
       },
       posts,
+      history,
     } = this.props;
     const post = posts.find(t => t.id === id);
     if (!post) {
@@ -59,7 +77,10 @@ class CommentPage extends React.Component {
     }
     return (
       <Container>
-        <PostTitle title={post.text} />
+        <TitleContainer>
+          <Button onClick={() => history.push('/')}>←</Button>
+          <PostTitle>{post.text}</PostTitle>
+        </TitleContainer>
         <CommentList comments={post.comments} />
         <AddComment postId={post.id} />
       </Container>
@@ -75,6 +96,7 @@ CommentPage.propTypes = {
   }).isRequired,
   posts: array.isRequired,
   subscribeToMore: func.isRequired,
+  history: object.isRequired,
 };
 
-export default CommentPage;
+export default withRouter(CommentPage);
